@@ -1,0 +1,17 @@
+nav{
+    background-color: oldlace;
+}
+
+ul{
+    display: flex;
+    justify-content: flex-end;
+}
+
+li{
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+    color: #5B3C11
+}

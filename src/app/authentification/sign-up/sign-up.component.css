@@ -1,0 +1,39 @@
+.container{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+#cardForm{
+    width: 80%;
+    min-width: 300px;
+}
+
+mat-card-header{
+    display: flex;
+    justify-content: center;
+    background-color: oldlace;
+    padding-top: 10px;
+    margin-bottom: 20px;
+}
+mat-card-title{
+    color: #5B3C11
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+}
+
+.form input{
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+button{
+    width: 120px;
+    margin: 0 10% 0 auto;
+    background-color: oldlace;
+    color: #5B3C11
+}
