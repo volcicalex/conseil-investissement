@@ -1,0 +1,33 @@
+.container{
+    display: block;
+    width: 100%;
+    margin: 30px;
+    justify-content: center;
+}
+
+#Titre{
+    justify-content: center;
+    font-size: 32px;
+    color:#B22222
+}
+
+#cardSearch{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#sidNavCategories{
+    display: flex;
+    width: 20%;
+}
+
+mat-card-header{
+    display: flex;
+    background-color: oldlace;
+    padding-top: 10px;
+    margin-bottom: 20px;
+}
+
+mat-card-title{
+    color: #5B3C11
+}
