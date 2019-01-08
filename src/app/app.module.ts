@@ -25,6 +25,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +57,16 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatPaginatorModule,
     MatToolbarModule,
     MatExpansionModule,
+    AngularFireModule.initializeApp({
+      apiKey: "AIzaSyBqBUOOdrWhuktsaHPu86ly__GrMhN39H8",
+      authDomain: "conseil-investissement.firebaseapp.com",
+      databaseURL: "https://conseil-investissement.firebaseio.com",
+      projectId: "conseil-investissement",
+      storageBucket: "conseil-investissement.appspot.com",
+      messagingSenderId: "473414439421"
+    }),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
