@@ -1,72 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { FileNode } from './FileNode';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { FileDatabase } from './FileDatabase';
+import { Post } from '../models/post';
+import { PostService } from '../services/post.service';
 
-
-export interface Section {
-  name: string;
-}
+import { map, take, subscribeOn } from 'rxjs/operators';
 
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.component.html',
-  styleUrls: ['./accueil.component.css']
+  styleUrls: ['./accueil.component.css'],
+  providers: [FileDatabase]
 })
 
-export class AccueilComponent implements OnInit {
+export class AccueilComponent implements OnInit{
 
-  constructor() { }
-  myControl = new FormControl();
-  options: string[] = ['nom1', 'nom2', 'nom3'];
-  filteredOptions: Observable<string[]>;
+  nestedTreeControl: NestedTreeControl<FileNode>;
+  nestedDataSource: MatTreeNestedDataSource<FileNode>;
 
-  cat1: Section[] = [
-    {
-      name: 'SousCat1',
-    },
-    {
-      name: 'SousCat2',
-    },
-    {
-      name: 'SousCat3'
-    }
-  ];
-  cat2: Section[] = [
-    {
-      name: 'SousCat4'
-    },
-    {
-      name: 'SousCat5'
-    }
-  ];
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  posts: Post[]
 
-  ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
+  constructor(database: FileDatabase,
+              private postService: PostService) {
+    this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
+    this.nestedDataSource = new MatTreeNestedDataSource();
+
+    database.dataChange.subscribe(data => this.nestedDataSource.data = data);
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  hasNestedChild = (_: number, nodeData: FileNode) => !nodeData.type;
+
+  private _getChildren = (node: FileNode) => node.children;
+
+  ngOnInit(){
+    this.postService.getPosts().valueChanges()
+      .subscribe((posts:Post[]) => this.posts = posts)
   }
-  
 }
-
-export interface PeriodicElement {
-  name: string;
-  author: string;
-  date: Date;
-  description: string;
-  commentaires: string[];
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {author: "auteur 1", name: 'Conseil', date: new Date('1/1/16'), description: 'description blabal', commentaires: ["cool", "top"]},
-  {author: "auteur 2", name: 'Conseil 2', date: new Date('3/1/16'), description: 'hello hello', commentaires:[]},
-  {author: "auteur 1", name: 'Conseil 3', date: new Date('3/1/16'), description: 'ceci est un conseil', commentaires:["trop nul"]}
-];

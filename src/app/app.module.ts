@@ -24,10 +24,12 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatIconModule} from '@angular/material/icon';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { FileDatabase } from './accueil/FileDatabase';
 
 
 @NgModule({
@@ -36,7 +38,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
     SignUpComponent,
     SignInComponent,
     HeaderComponent,
-    AccueilComponent
+    AccueilComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +59,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
     MatPaginatorModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatIconModule,
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyBqBUOOdrWhuktsaHPu86ly__GrMhN39H8",
       authDomain: "conseil-investissement.firebaseapp.com",
@@ -66,7 +69,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
       messagingSenderId: "473414439421"
     }),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
