@@ -8,7 +8,6 @@ export const appRoutes: Routes = [
     { path: 'auth/signup', component: SignUpComponent },
     { path: 'auth/signin', component: SignInComponent },
     { path: 'accueil', component: AccueilComponent },
-    { path: 'editPost', component: AccueilComponent, canActivate: [AuthorGuard]},
     { path: '', redirectTo: 'accueil', pathMatch: 'full' },
     { path: '**', redirectTo: 'accueil' }
   ];

@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database'
-import * as _ from 'lodash'
 import { AuthService } from './auth.service';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { ToastrService } from 'ngx-toastr';
-
-import 'rxjs-compat/add/operator/map'
-import { Post } from '../models/post';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {
+export class CategorieService {
 
   userRoles: Array<string>;
 
@@ -22,21 +19,12 @@ export class PostService {
     }).subscribe()
   }
 
-  getPosts(){
-    return this.db.list('posts')
-  }
-
-  getPost(key){
-    return this.db.object('posts/' + key)
-  }
-
-  canRead(): boolean{
-    const allowed = ['admin', 'author', 'reader']
-    return this.matchingRole(allowed)
+  getCategories(){
+    return this.db.list('categories')
   }
 
   canEdit(): boolean {
-    const allowed = ['admin', 'author']
+    const allowed = ['admin']
     return this.matchingRole(allowed)
   }
 
@@ -49,23 +37,10 @@ export class PostService {
     return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
   }
 
-  editPost(newData: Post){
+  addCategory(post, newData){
     if (this.canEdit) {
-      return this.db.object('posts/' + newData.id).update(newData)
+      return this.db.object('categories/' + post.$key).update(newData)
     }
     else this.toastr.error("Action refusée")
   }
-
-  deletePost(key) {
-    if (this.canDelete) {
-      return this.db.list('posts/' + key).remove()
-    }
-    else this.toastr.error('Action refusée')
-  }
-
-  likePost(newData: Post) {
-    return this.db.object('posts/' + newData.id).update(newData)
-  }
-
-
 }

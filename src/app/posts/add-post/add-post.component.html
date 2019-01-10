@@ -1,0 +1,19 @@
+<form [formGroup]="postForm" (ngSubmit)="addPost()">
+  <mat-form-field>
+    <input matInput placeholder="Titre" formControlName="titre" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="Resume" formControlName="resume" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="Post" formControlName="description" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Catégorie" formControlName="categorie">
+  </mat-form-field>
+
+  <button mat-button type="submit" [disabled]="!postForm.valid">Ajouter</button>
+</form>

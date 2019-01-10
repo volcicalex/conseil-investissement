@@ -25,11 +25,15 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { FileDatabase } from './accueil/FileDatabase';
+import { EditPostComponent } from './posts/edit-post/edit-post.component';
+import { AddPostComponent } from './posts/add-post/add-post.component';
 
 
 @NgModule({
@@ -39,6 +43,8 @@ import { FileDatabase } from './accueil/FileDatabase';
     SignInComponent,
     HeaderComponent,
     AccueilComponent,
+    EditPostComponent,
+    AddPostComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +66,8 @@ import { FileDatabase } from './accueil/FileDatabase';
     MatToolbarModule,
     MatExpansionModule,
     MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyBqBUOOdrWhuktsaHPu86ly__GrMhN39H8",
       authDomain: "conseil-investissement.firebaseapp.com",
@@ -72,6 +80,8 @@ import { FileDatabase } from './accueil/FileDatabase';
     AngularFireAuthModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [EditPostComponent,
+                    AddPostComponent]
 })
 export class AppModule { }
