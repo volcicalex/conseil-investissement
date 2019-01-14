@@ -13,9 +13,19 @@ mat-sidenav{
     top: 0;
 }
 
+.deleteRubric{
+    position: absolute;
+    right: 0;
+}
+
 /* Partie Arbre */
+.example-tree{
+    margin-top: 10px;
+}
+
 .example-tree-invisible {
     display: none;
+    margin-left: 10px;
 }
   
 .example-tree ul,
@@ -27,7 +37,7 @@ mat-sidenav{
 
 /* Liste des posts */
 #listPosts{
-    margin: 70px 20px 20px 20px;
+    margin: 20px;
     display: flex;
     flex-wrap: wrap
 }

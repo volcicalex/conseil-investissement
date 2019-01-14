@@ -1,7 +1,7 @@
 import { Commentaire } from "./commentaire";
 import { User } from "./user";
-import { FileNode } from "../accueil/FileNode";
 import { AuthService } from "../services/auth.service";
+import { Rubric } from "./rubric";
 
 export class Post{
     id: string;
@@ -12,7 +12,7 @@ export class Post{
     resume: string;
     listComment: Commentaire[];
     nbLike: number;
-    categorie: FileNode;
+    categorie: Rubric;
 
     constructor(titre: string,
                 auteur: User,

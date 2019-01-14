@@ -1,0 +1,7 @@
+<form [formGroup]="postForm" (ngSubmit)="addNode()">
+  <mat-form-field>
+    <input matInput placeholder="Nom" formControlName="nom" required>
+  </mat-form-field>
+
+  <button mat-button type="submit" [disabled]="!postForm.valid">Ajouter</button>
+</form>

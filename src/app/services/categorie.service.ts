@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'lodash';
+import { Rubric } from '../models/rubric';
 
 @Injectable({
   providedIn: 'root'
@@ -37,10 +38,17 @@ export class CategorieService {
     return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
   }
 
-  addCategory(post, newData){
+  addCategory(newData: Rubric){
     if (this.canEdit) {
-      return this.db.object('categories/' + post.$key).update(newData)
+      return this.db.object('categories/' + newData.id).update(newData)
     }
     else this.toastr.error("Action refusée")
+  }
+
+  deleteCategory(key: string){
+    if (this.canDelete) {
+      return this.db.list('categories/' + key).remove()
+    }
+    else this.toastr.error('Action refusée')
   }
 }

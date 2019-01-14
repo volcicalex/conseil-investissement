@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { FileNode } from "./FileNode";
 import { CategorieService } from "../services/categorie.service";
 
 /**
@@ -10,7 +9,7 @@ import { CategorieService } from "../services/categorie.service";
  * The input will be a json object string, and the output is a list of `FileNode` with nested
  * structure.
  */
-@Injectable()
+/*@Injectable()
 export class FileDatabase {
   dataChange = new BehaviorSubject<FileNode[]>([]);
 
@@ -22,9 +21,9 @@ export class FileDatabase {
 
   async initialize() {
 
-    let wait = await this.categorieService.getCategories().valueChanges()
+    this.categorieService.getCategories().valueChanges()
       .subscribe((categories: FileNode[]) => {
         this.dataChange.next(categories);
       })
   }
-}
+}*/

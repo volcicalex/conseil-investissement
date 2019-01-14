@@ -31,9 +31,9 @@ import {MatSelectModule} from '@angular/material/select';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { FileDatabase } from './accueil/FileDatabase';
 import { EditPostComponent } from './posts/edit-post/edit-post.component';
 import { AddPostComponent } from './posts/add-post/add-post.component';
+import { AddRubricComponent } from './rubrics/add-rubric/add-rubric.component';
 
 
 @NgModule({
@@ -45,6 +45,7 @@ import { AddPostComponent } from './posts/add-post/add-post.component';
     AccueilComponent,
     EditPostComponent,
     AddPostComponent,
+    AddRubricComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +83,7 @@ import { AddPostComponent } from './posts/add-post/add-post.component';
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [EditPostComponent,
-                    AddPostComponent]
+                    AddPostComponent,
+                    AddRubricComponent]
 })
 export class AppModule { }
