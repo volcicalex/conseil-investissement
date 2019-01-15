@@ -27,6 +27,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -69,6 +70,7 @@ import { AddRubricComponent } from './rubrics/add-rubric/add-rubric.component';
     MatIconModule,
     MatDialogModule,
     MatSelectModule,
+    MatCheckboxModule,
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyBqBUOOdrWhuktsaHPu86ly__GrMhN39H8",
       authDomain: "conseil-investissement.firebaseapp.com",

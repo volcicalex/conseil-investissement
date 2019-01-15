@@ -13,6 +13,8 @@ import { User } from 'src/app/models/user';
 export class SignUpComponent implements OnInit {
 
   signupForm: FormGroup;
+  
+  roles = {reader: true, author: false, admin: false}
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -34,6 +36,7 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.roles);
     const user = new User(this.signupForm)
     const password = this.signupForm.get('password').value   
     this.authService.createNewUser(user, password).then(

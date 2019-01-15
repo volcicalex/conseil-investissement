@@ -11,6 +11,8 @@
         <input placeholder="Pseudo" type="text" formControlName="pseudo">
         <input placeholder="Adresse mail" type="text" formControlName="email">
         <input placeholder="Mot de passe" type="password" formControlName="password">
+        <mat-checkbox [(ngModel)]="roles.author">Auteur</mat-checkbox>
+        <mat-checkbox [(ngModel)]="roles.admin">Admin</mat-checkbox>
         <button mat-button
                 type="submit"
                 [disabled]="signupForm.invalid">Inscription</button>
