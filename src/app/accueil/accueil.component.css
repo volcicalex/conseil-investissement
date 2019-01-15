@@ -5,6 +5,20 @@
 
 mat-sidenav{
     min-width: 300px;
+    background: url('../../../images/header.png') repeat;
+}
+
+.listCategories {
+    margin: 30px;
+    background-color: #ffffff;
+    border: 1px solid black;
+    opacity: 0.6;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+
+.nomCat{
+    font-size: 13pt;
+    color: #5B3C11;
 }
 
 .sidenavButton{
@@ -44,11 +58,27 @@ mat-sidenav{
 
 .post{
     height: 300px;
-    width: 300px;
+    width: 400px;
     margin-right: 20px;
     margin-bottom: 20px;
     background-color: white;
     overflow: hidden;
+}
+
+.titrePost{
+    color: lightseagreen;
+    font-size: 16pt;
+}
+
+.auteurPost{
+    color: #5B3C11;
+    font-size: 12pt;
+}
+
+
+.resumePost{
+    width: 350px;
+    font-size: 9pt;
 }
 
 .postFooter{
