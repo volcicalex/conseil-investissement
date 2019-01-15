@@ -1,12 +1,19 @@
-<h1>{{data.post.titre}}</h1>
+<header> <img src="financebanniere.jpg" alt="Conseils Investissements"> </header>
+<h2>{{data.post.titre}}</h2>
 <div id="informations">
-  <p>{{data.post.auteur}}</p>
+  <p class="info">Un article de {{data.post.auteur.prenom}} {{data.post.auteur.nom}}, publié le {{data.post.date | date }}</p>
 </div>
-<p>{{data.post.resume}}</p>
-<p>{{data.post.description}}</p>
+<p class="resume">{{data.post.resume}}</p>
+<p class="description">{{data.post.description}}</p>
 <div>
-  Commentaires
-  <p *ngFor="let comment of data.post.listComment">
-    {{comment.texte}}
-  </p>
+  <hr width="80%" color="lightseagreen" size="1"> 
+  <p class="commentaires">Commentaires</p>
+  <div class="listCommentaires" *ngFor="let comment of data.post.listComment">
+    <p class="idCommentaire">
+      {{comment.auteur.prenom}} {{comment.auteur.nom}}, le {{comment.date | date}} : 
+    </p>
+    <p class="texteCommentaire">
+      {{comment.texte}}
+    </p>
+  </div>
 </div>

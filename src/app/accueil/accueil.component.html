@@ -3,9 +3,9 @@
     <mat-sidenav-container class="example-container">
             <mat-sidenav #sidenav id="sidNavCategories" mode="side" opened>
                 <button mat-icon-button *ngIf="sidenav.opened" (click)="sidenav.close()"><mat-icon>close</mat-icon></button>
-                <mat-list>
+                <mat-list class="listCategories">
                     <mat-list-item *ngFor="let rubric of rubrics">
-                        <button mat-button (click)="onSelectRubric(rubric)">{{rubric.nom}}</button>
+                        <button mat-button class="nomCat" (click)="onSelectRubric(rubric)">{{rubric.nom}}</button>
                         <button mat-icon-button class="deleteRubric" *ngIf="categorieService.canDelete()" (click)="onDeleteRubric(rubric)">
                             <mat-icon>close</mat-icon>
                         </button>
@@ -38,17 +38,17 @@
                         <div>
                             <p>Ajouter un post</p>
                         </div>    
-                    </button>
+                    </button> 
                     <div *ngFor="let post of filteredPosts; let i = index">
                         <div class="post" *ngIf="isInFilter(post, i)">
                             <button mat-button (click)="openPost(post)">
-                                <div>
-                                    <h4>{{post.titre}}</h4>
-                                    <p>Dog Breed</p>
-                                </div>
-                                <div>
-                                    <p>{{post.description}}</p>
-                                </div>
+                            <div>
+                                <h4 class="titrePost">{{post.titre}}</h4>
+                                <p class="auteurPost">{{post.auteur.prenom}} {{post.auteur.nom}}, le {{post.date |date}} </p>
+                            </div>
+                            <div>
+                                <p class="resumePost">{{post.resume}}</p>
+                            </div>
                             </button> 
                             <div class="postFooter">
                                 <button mat-icon-button (click)="onLike(post)">{{post.nbLike}}<mat-icon >thumb_up</mat-icon></button>
