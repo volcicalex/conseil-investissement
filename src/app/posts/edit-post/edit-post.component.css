@@ -1,3 +1,19 @@
+header{
+    font-size: 20px;
+    background: url('../../../../images/170921-globalstocksinvesting-stock.jpg') repeat;
+    font-style: italic;
+    padding: 10px;
+    width:100%;
+}
+
+header p{
+    justify-content: center;
+    margin: 10px;
+    background-color: #ffffff;
+    opacity: 0.6;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+
 #information{
     display: flex;
     flex-direction: column;

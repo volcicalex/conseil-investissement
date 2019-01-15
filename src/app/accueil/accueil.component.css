@@ -57,13 +57,13 @@ mat-sidenav{
 }
 
 .post{
-    height: 300px;
     width: 400px;
     margin-right: 20px;
     margin-bottom: 20px;
+
     background-color: white;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
 }
 
 .post button{
@@ -79,12 +79,15 @@ mat-sidenav{
 .auteurPost{
     color: #5B3C11;
     font-size: 12pt;
+    font-style: oblique;
 }
 
 
 .resumePost{
     width: 350px;
     font-size: 9pt;
+    white-space: pre-line;
+    margin-bottom:40px;
 }
 
 .postFooter{
