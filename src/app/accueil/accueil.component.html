@@ -44,7 +44,7 @@
                             <button mat-button (click)="openPost(post)">
                             <div>
                                 <h4 class="titrePost">{{post.titre}}</h4>
-                                <p class="auteurPost">{{post.auteur.prenom}} {{post.auteur.nom}} </p>
+                                <p class="auteurPost">{{post.auteur.prenom}} {{post.auteur.nom}}, le {{post.date |date}} </p>
                             </div>
                             <div>
                                 <p class="resumePost">{{post.resume}}</p>
