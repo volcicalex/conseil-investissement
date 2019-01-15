@@ -6,6 +6,9 @@
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form">
+        <input placeholder="Nom" type="text" formControlName="nom">
+        <input placeholder="Prénom" type="text" formControlName="prenom">
+        <input placeholder="Pseudo" type="text" formControlName="pseudo">
         <input placeholder="Adresse mail" type="text" formControlName="email">
         <input placeholder="Mot de passe" type="password" formControlName="password">
         <button mat-button
