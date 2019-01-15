@@ -1,3 +1,5 @@
+import { FormGroup } from "@angular/forms";
+
 export interface Roles{
     reader: boolean
     author?: boolean
@@ -12,11 +14,11 @@ export class User{
     pseudo: string
     roles: Roles
 
-    constructor(authData){
-        this.email = authData.email
-        this.nom = authData.nom
-        this.prenom = authData.prenom
-        this.pseudo = authData.pseudo
+    constructor(signUpForm: FormGroup){
+        this.email = signUpForm.get('email').value
+        this.nom = signUpForm.get('nom').value
+        this.prenom = signUpForm.get('prenom').value
+        this.pseudo = signUpForm.get('pseudo').value
         this.roles = { reader: true }
     }
 }

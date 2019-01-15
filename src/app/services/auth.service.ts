@@ -10,6 +10,7 @@ import { Observable } from 'rxjs'
 import { of } from 'rxjs'
 
 import 'rxjs-compat/add/operator/switchMap' 
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -23,6 +24,7 @@ export class AuthService {
 
   constructor(private afAuth: AngularFireAuth,
               private db: AngularFireDatabase,
+              private toastr: ToastrService,
               private router: Router) {  
     this.user = this.afAuth.authState.switchMap(auth => {
       if (auth){
@@ -33,15 +35,16 @@ export class AuthService {
     })
 }
 
-  createNewUser(email: string, password: string) {
+  createNewUser(user: User, password: string) {
     return new Promise(
       (resolve, reject) => {
-        firebase.auth().createUserWithEmailAndPassword(email, password).then(
-          (credential) => {
-            this.createUser(credential.user)
+        firebase.auth().createUserWithEmailAndPassword(user.email, password).then(
+          () => {
+            this.createUser(user)
             resolve();
           },
           (error) => {
+            this.toastr.error("Erreur dans la création")
             reject(error);
           }
         );
@@ -54,10 +57,11 @@ export class AuthService {
       (resolve, reject) => {
         firebase.auth().signInWithEmailAndPassword(email, password).then(
           (credential) => {
-            this.updateUser(credential.user)
+            //this.updateUser(credential.user)
             resolve();
           },
           (error) => {
+            this.toastr.error("Erreur de connexion")
             reject(error);
           }
         );
@@ -69,10 +73,9 @@ export class AuthService {
     this.afAuth.auth.signOut()
   }
 
-  private createUser(authData){
-    const userData = new User(authData)
-    const ref = this.db.object('users/' + authData.uid)
-    ref.set(userData)
+  private createUser(user: User){
+    const ref = this.db.object('users/' + user.id)
+    ref.set(user)
   }
 
   private updateUser(authData){

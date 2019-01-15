@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-sign-up',
@@ -24,21 +25,23 @@ export class SignUpComponent implements OnInit {
 
   initForm() {
     this.signupForm = this.formBuilder.group({
+      nom: ['', [Validators.required]],
+      prenom: ['', [Validators.required]],
+      pseudo: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
     });
   }
 
   onSubmit() {
-    const email = this.signupForm.get('email').value;
-    const password = this.signupForm.get('password').value;
-    
-    this.authService.createNewUser(email, password).then(
+    const user = new User(this.signupForm)
+    const password = this.signupForm.get('password').value   
+    this.authService.createNewUser(user, password).then(
       () => {
         this.router.navigate(['/acceuil']);
       },
       (error) => {
-        this.toastrService.error("Erreur dans la création");
+        this.toastrService.error("Erreur dans la création")
       }
     );
   }
