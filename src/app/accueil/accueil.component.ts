@@ -22,9 +22,11 @@ export class AccueilComponent implements OnInit{
   nestedDataSource: MatTreeNestedDataSource<FileNode>;*/
 
   posts: Post[]
+  filteredPosts: Post[]
   searchValue: string = ""
 
-  displayPosts: string = "10";
+  displayPosts: string = "10"
+  sortedValue: string = "date"
 
   rubrics: Rubric[]
   rubricSelected: Rubric = new Rubric("Tous")
@@ -40,11 +42,12 @@ export class AccueilComponent implements OnInit{
       .subscribe((rubrics: Rubric[]) => {this.rubrics = rubrics; this.sortedRubrics()})
 
     this.postService.getPosts().valueChanges()
-      .subscribe((posts:Post[]) => {this.posts = posts; this.sortedPosts()})
+      .subscribe((posts:Post[]) => {this.posts = posts; this.filteredPosts = this.posts; this.sortedPost()})
   }
 
   applyFilter(value: string): void{
     this.searchValue = value;
+    this.fillByFilter();
   }
 
   /* Gestion des rubriques */
@@ -64,11 +67,12 @@ export class AccueilComponent implements OnInit{
 
   isInFilter(post: Post, index: number): boolean{
     return (this.rubricSelected.nom == "Tous" || ((post.categorie != undefined) && (post.categorie.id == this.rubricSelected.id))) 
-      && post.titre.includes(this.searchValue) && index < parseInt(this.displayPosts)
+      && post.titre.includes(this.searchValue) && (index < parseInt(this.displayPosts))
   }
 
   onSelectRubric(node: Rubric): void{
     this.rubricSelected = node
+    this.fillByFilter();
   }
 
   addRubric(): void{
@@ -88,7 +92,31 @@ export class AccueilComponent implements OnInit{
 
   /* Gestion des posts */
 
-  sortedPosts(): void{
+  fillByFilter(): void{
+    this.filteredPosts = []
+    for (let i=0; i<this.posts.length; i++){
+      if (this.isInFilter(this.posts[i], 0)){
+        this.filteredPosts.push(this.posts[i])
+      }
+    }
+    this.sortedPost()
+  }
+
+  sortedPost(): void{
+    switch(this.sortedValue){
+      case "date":
+        this.sortedPostsByDate();
+        break;
+      case "like":
+        this.sortedPostsByLike();
+        break;
+      case "comment":
+        this.sortedPostsByComment();
+        break;
+    }
+  }
+
+  sortedPostsByDate(): void{
     let f = function compare(a: Post, b: Post) {
       if (a.date < b.date)
          return 1;
@@ -97,6 +125,35 @@ export class AccueilComponent implements OnInit{
       return 0;
     };
     this.posts.sort(f);
+    this.filteredPosts.sort(f);
+  }
+
+  sortedPostsByLike(): void{
+    let f = function compare(a: Post, b: Post) {
+      if (a.nbLike < b.nbLike)
+         return 1;
+      else if (a.nbLike > b.nbLike)
+         return -1;
+      return 0;
+    };
+    this.posts.sort(f);
+    this.filteredPosts.sort(f);
+  }
+
+  sortedPostsByComment(): void{
+    let f = function compare(a: Post, b: Post) {
+      if (a.listComment == undefined)
+        return 1
+      else if (b.listComment == undefined)
+        return -1
+      else if (a.listComment.length < b.listComment.length)
+         return 1;
+      else if (a.listComment.length > b.listComment.length)
+         return -1;
+      return 0;
+    };
+    this.posts.sort(f);
+    this.filteredPosts.sort(f);
   }
 
   openPost(post: Post): void {
@@ -114,7 +171,7 @@ export class AccueilComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.sortedPosts()
+      this.sortedPost()
     });
   }
 

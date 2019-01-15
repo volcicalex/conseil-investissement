@@ -49,16 +49,23 @@ mat-sidenav{
     margin-bottom: 20px;
     background-color: white;
     overflow: hidden;
+    position: relative;
+}
+
+.post button{
+    height: 100%;
+    width: 100%;
 }
 
 .postFooter{
+    display: flex;
     position: absolute;
     bottom: 10px;
-    right: 10px;
+    right: 150px;
 }
 
 .postFooter button{
-    margin-right: 20px;
+    z-index: 1000;
 }
 
 .postFooter button mat-icon{

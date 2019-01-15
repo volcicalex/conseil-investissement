@@ -12,7 +12,9 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Catégorie" formControlName="categorie">
+      <mat-select placeholder="Catégorie" [(value)]="indexCategorie">
+          <mat-option *ngFor="let rubric of rubrics; let i = index" [value]="i" >{{rubric.nom}}</mat-option>
+      </mat-select>
   </mat-form-field>
 
   <button mat-button type="submit" [disabled]="!postForm.valid">Ajouter</button>

@@ -17,7 +17,8 @@ export class Post{
     constructor(titre: string,
                 auteur: User,
                 description: string,
-                resume: string)
+                resume: string,
+                categorie: Rubric)
     {
         this.id = Math.random().toString(36).substr(2, 9);
         this.titre = titre
@@ -26,5 +27,6 @@ export class Post{
         this.description = description
         this.resume = resume
         this.nbLike = 0;
+        this.categorie = categorie;
     }
 }
