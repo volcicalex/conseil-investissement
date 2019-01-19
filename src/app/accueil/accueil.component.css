@@ -5,7 +5,7 @@
 
 mat-sidenav{
     min-width: 300px;
-    background: url('../../../images/header.png') repeat;
+    background: url('/assets/images/header.png') repeat;
 }
 
 .listCategories {

@@ -15,7 +15,7 @@ mat-card-header{
     background-color: oldlace;
     padding-top: 10px;
     margin-bottom: 20px;
-    background: url('../../../../images/banniere.jpg') no-repeat;
+    background: url('/assets/images/banniere.jpg') no-repeat;
 }
 mat-card-title{
     color: #5B3C11;

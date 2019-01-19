@@ -45,7 +45,7 @@ export class PostService {
     return this.matchingRole(allowed)
   }
 
-  private matchingRole(allowedRoles): boolean {
+  matchingRole(allowedRoles): boolean {
     return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
   }
 

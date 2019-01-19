@@ -13,8 +13,6 @@ import { User } from 'src/app/models/user';
 export class SignUpComponent implements OnInit {
 
   signupForm: FormGroup;
-  
-  roles = {reader: true, author: false, admin: false}
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -31,12 +29,12 @@ export class SignUpComponent implements OnInit {
       prenom: ['', [Validators.required]],
       pseudo: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
+      password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]],
+      isAdmin: false, isAuthor: false
     });
   }
 
   onSubmit() {
-    console.log(this.roles);
     const user = new User(this.signupForm)
     const password = this.signupForm.get('password').value   
     this.authService.createNewUser(user, password).then(

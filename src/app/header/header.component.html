@@ -11,6 +11,9 @@
       <a routerLink="/auth/signin">Se connecter</a>
     </li>
     <li>
+      <a routerLink="/manageUser" *ngIf="isAuth && authService.canManage()">Gestion des utilisateurs</a>
+    </li>
+    <li>
       <a (click)="onSignOut()"
           style="cursor:pointer"
           *ngIf="isAuth">Se déconnecter</a>

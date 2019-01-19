@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database'
 import { AngularFireAuth } from 'angularfire2/auth'
 import { User } from '../models/user';
 import { Router } from '@angular/router';
+import * as _ from 'lodash'
 
 import { BehaviorSubject, from } from 'rxjs'
 import { Observable } from 'rxjs'
@@ -11,6 +12,7 @@ import { of } from 'rxjs'
 
 import 'rxjs-compat/add/operator/switchMap' 
 import { ToastrService } from 'ngx-toastr';
+import { PostService } from './post.service';
 
 
 
@@ -21,11 +23,11 @@ import { ToastrService } from 'ngx-toastr';
 export class AuthService {
 
   user: Observable<User>
+  userRoles: Array<string>;
 
   constructor(private afAuth: AngularFireAuth,
               private db: AngularFireDatabase,
-              private toastr: ToastrService,
-              private router: Router) {  
+              private toastr: ToastrService) {  
     this.user = this.afAuth.authState.switchMap(auth => {
       if (auth){
         return this.db.object('users/' + auth.uid).valueChanges()
@@ -33,6 +35,9 @@ export class AuthService {
         return of(null)
       }
     })
+    this.user.map(user => {
+      return this.userRoles = _.keys(_.get(user, 'roles'))
+    }).subscribe()
 }
 
   createNewUser(user: User, password: string) {
@@ -57,7 +62,6 @@ export class AuthService {
       (resolve, reject) => {
         firebase.auth().signInWithEmailAndPassword(email, password).then(
           (credential) => {
-            //this.updateUser(credential.user)
             resolve();
           },
           (error) => {
@@ -78,13 +82,30 @@ export class AuthService {
     ref.set(user)
   }
 
-  private updateUser(authData){
-    const userData = new User(authData)
-    const ref = this.db.object('users/' + authData.uid)
-    ref.valueChanges().subscribe((user:User) => {
-      if (!user.roles) {
-        ref.update(userData)
-      }
-    })
+  canManage(): boolean {
+    const allowed = ['admin']
+    return this.matchingRole(allowed)
   }
+
+  matchingRole(allowedRoles): boolean {
+    return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
+  }
+
+  getUsers(){
+    if (this.canManage) return this.db.list('users') 
+    else this.toastr.error("Action refusée")
+  }
+
+  updateUser(user: User){
+    const ref = this.db.object('users/' + user.id)
+    if (this.canManage) return ref.update(user)
+    else this.toastr.error("Action refusée")
+  }
+
+  deleteUser(user: User){
+    const ref = this.db.object('users/' + user.id)
+    if (this.canManage) return ref.remove()
+    else this.toastr.error("Action refusée")
+  }
+
 }

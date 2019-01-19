@@ -35,6 +35,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { EditPostComponent } from './posts/edit-post/edit-post.component';
 import { AddPostComponent } from './posts/add-post/add-post.component';
 import { AddRubricComponent } from './rubrics/add-rubric/add-rubric.component';
+import { ManageUserComponent } from './admin/manage-user/manage-user.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { AddRubricComponent } from './rubrics/add-rubric/add-rubric.component';
     EditPostComponent,
     AddPostComponent,
     AddRubricComponent,
+    ManageUserComponent,
   ],
   imports: [
     BrowserModule,
