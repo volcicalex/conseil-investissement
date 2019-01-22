@@ -15,7 +15,6 @@ export class User{
     roles: Roles
 
     constructor(signUpForm: FormGroup){
-        this.id = Math.random().toString(36).substr(2, 9);
         this.email = signUpForm.get('email').value
         this.nom = signUpForm.get('nom').value
         this.prenom = signUpForm.get('prenom').value

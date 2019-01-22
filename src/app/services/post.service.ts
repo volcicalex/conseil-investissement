@@ -66,6 +66,5 @@ export class PostService {
   likePost(newData: Post) {
     return this.db.object('posts/' + newData.id).update(newData)
   }
-
-
+  
 }

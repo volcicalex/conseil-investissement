@@ -44,7 +44,8 @@ export class AuthService {
     return new Promise(
       (resolve, reject) => {
         firebase.auth().createUserWithEmailAndPassword(user.email, password).then(
-          () => {
+          (credential) => {
+            user.id = credential.user.uid
             this.createUser(user)
             resolve();
           },

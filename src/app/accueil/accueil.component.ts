@@ -8,18 +8,25 @@ import { AddPostComponent } from '../posts/add-post/add-post.component';
 import { AddRubricComponent } from '../rubrics/add-rubric/add-rubric.component';
 import { CategorieService } from '../services/categorie.service';
 import { ToastrService } from 'ngx-toastr';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { FileNode } from '../models/node';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { FileDatabase } from './FileDatabase';
 
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.component.html',
   styleUrls: ['./accueil.component.css'],
-  providers: []
+  providers: [FileDatabase]
 })
 
 export class AccueilComponent implements OnInit{
 
-  /*nestedTreeControl: NestedTreeControl<FileNode>;
-  nestedDataSource: MatTreeNestedDataSource<FileNode>;*/
+  nestedTreeControl: NestedTreeControl<FileNode>;
+  nestedDataSource: MatTreeNestedDataSource<FileNode>;
+
+  nodeSelected: FileNode = new FileNode("", "Tous")
+  nomRubrique: string
 
   posts: Post[]
   filteredPosts: Post[]
@@ -28,21 +35,100 @@ export class AccueilComponent implements OnInit{
   displayPosts: string = "10"
   sortedValue: string = "date"
 
-  rubrics: Rubric[]
-  rubricSelected: Rubric = new Rubric("Tous")
-
-  constructor(public dialog: MatDialog,
+  constructor(database: FileDatabase,
+              public dialog: MatDialog,
               private toastr: ToastrService,
               private categorieService: CategorieService,
               private postService: PostService) {
+    this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
+    this.nestedDataSource = new MatTreeNestedDataSource();
+
+    database.dataChange.subscribe(data => {this.nestedDataSource.data = data; console.log(data)});
   }
 
   ngOnInit(){
-    this.categorieService.getCategories().valueChanges()
-      .subscribe((rubrics: Rubric[]) => {this.rubrics = rubrics; this.sortedRubrics()})
-
     this.postService.getPosts().valueChanges()
       .subscribe((posts:Post[]) => {this.posts = posts; this.filteredPosts = this.posts; this.sortedPost()})
+  }
+
+  hasNestedChild = (_: number, nodeData: FileNode) => !nodeData.type;
+
+  private _getChildren = (node: FileNode) => node.children;
+
+  indent(node: FileNode){
+    let indent = ""
+    let split = node.idsFather.split("/")
+    for (let id of split) if(id != "") indent += "--------"
+    return indent
+  }
+
+  allLink(node: FileNode): string{
+    let link = ""
+    if (node.idsFather.length > 0) link += node.idsFather + "/"
+    link += node.filename
+    return link 
+  }
+
+  onSelectNode(node: FileNode): void{
+    this.nodeSelected = node
+    this.fillByFilter()
+  }
+
+  hideInput(): void{
+    let already_select = document.getElementsByClassName("input_display").item(0)
+    if (already_select != undefined) already_select.setAttribute("class", "input")
+  }
+
+  hideButton(): void{
+    let items = document.getElementsByClassName("button_rubric");
+    while (items.length != 0) {
+      items.item(0).setAttribute("class", "hidden_button_rubric")
+    }
+  }
+
+  displayButton(): void{
+    let items = document.getElementsByClassName("hidden_button_rubric");
+    while (items.length != 0) {
+      items.item(0).setAttribute("class", "button_rubric")
+    }
+  }
+
+  displayAddNode(node: FileNode): void{
+    this.hideInput()
+    this.hideButton()
+    let html_element
+    if (node == undefined || node.filename == "Tous"){
+      html_element = document.getElementById("input_tous")
+    } else {
+      html_element = document.getElementById(this.allLink(node))
+    }
+    html_element.setAttribute("class", "input_display")
+  }
+
+  addNode(node: FileNode): void{
+    if (this.nomRubrique != undefined && this.nomRubrique.length > 0 && this.nomRubrique.toLowerCase() != "tous"){
+      let link = this.nomRubrique
+      if (node != undefined && node.filename != "Tous") 
+        link = this.allLink(node) + "/" + this.nomRubrique
+      this.categorieService.addCategory(link).then(
+        () => {
+          /* On vide les input */
+          this.nomRubrique = ""
+          this.hideInput()
+        }
+      )
+    } else {
+      this.toastr.error("Action impossible")
+    }
+  }
+
+  onDeleteNode(node: FileNode): void {
+    this.categorieService.deleteCategory(node.idsFather, node.filename);
+  }
+
+  isInNode(post: Post, node: FileNode): boolean{
+    if (node.filename == "Tous" || (post.categorie != undefined && this.allLink(node) == post.categorie)) return true
+    return false;
   }
 
   applyFilter(value: string): void{
@@ -52,42 +138,10 @@ export class AccueilComponent implements OnInit{
 
   /* Gestion des rubriques */
 
-  sortedRubrics(): void{
-    let f = function compare(a: Rubric, b: Rubric) {
-      if (a.nom == "Tous") return 1
-      else if (b.nom == "Tous") return -1  
-      else if (a.nom < b.nom)
-         return -1;
-      else if (a.nom > b.nom)
-         return 1;
-      return 0;
-    };
-    this.rubrics.sort(f);
-  }
-
   isInFilter(post: Post, index: number): boolean{
-    return (this.rubricSelected.nom == "Tous" || ((post.categorie != undefined) && (post.categorie.id == this.rubricSelected.id))) 
-      && post.titre.includes(this.searchValue) && (index < parseInt(this.displayPosts))
-  }
-
-  onSelectRubric(node: Rubric): void{
-    this.rubricSelected = node
-    this.fillByFilter();
-  }
-
-  addRubric(): void{
-    let dialogRef = this.dialog.open(AddRubricComponent, {
-      height: '200px',
-      width: '400px'
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      this.sortedRubrics()
-    });
-  }
-
-  onDeleteRubric(rubric: Rubric): void{
-    this.categorieService.deleteCategory(rubric.id).then(() => this.toastr.success("Rubrique supprimée"))
+    return this.isInNode(post, this.nodeSelected) 
+      && post.titre.includes(this.searchValue) 
+      && (index < parseInt(this.displayPosts))
   }
 
   /* Gestion des posts */

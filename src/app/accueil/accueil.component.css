@@ -27,26 +27,34 @@ mat-sidenav{
     top: 0;
 }
 
-.deleteRubric{
+/* Partie Arbre */
+.example-tree-invisible {
+    display: none;
+  }
+  
+  .example-tree ul,
+  .example-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+
+.input{
+    display: none;
+}
+
+.input_display{
+    width: 200px;
+    display: flex
+}
+
+.button_rubric{
     position: absolute;
     right: 0;
 }
 
-/* Partie Arbre */
-.example-tree{
-    margin-top: 10px;
-}
-
-.example-tree-invisible {
+.hidden_button_rubric{
     display: none;
-    margin-left: 10px;
-}
-  
-.example-tree ul,
-.example-tree li {
-    margin-top: 0;
-    margin-bottom: 0;
-    list-style-type: none;
 }
 
 /* Liste des posts */

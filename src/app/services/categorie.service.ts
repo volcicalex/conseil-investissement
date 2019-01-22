@@ -21,7 +21,7 @@ export class CategorieService {
   }
 
   getCategories(){
-    return this.db.list('categories')
+    return this.db.object('categories')
   }
 
   canEdit(): boolean {
@@ -38,16 +38,20 @@ export class CategorieService {
     return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
   }
 
-  addCategory(newData: Rubric){
+  addCategory(link: string){
     if (this.canEdit) {
-      return this.db.object('categories/' + newData.id).update(newData)
+      return this.db.object('categories/' + link).set("any")
     }
     else this.toastr.error("Action refusée")
   }
 
-  deleteCategory(key: string){
+  deleteCategory(idsFather: string, newNode: string){
     if (this.canDelete) {
-      return this.db.list('categories/' + key).remove()
+      this.db.list('categories/' + idsFather).valueChanges()
+        .subscribe((rubrics) => {
+          if (rubrics && rubrics.length < 2) return this.db.object('categories/' + idsFather).set("any")
+          else return this.db.object('categories/' + idsFather + "/" + newNode).remove()
+        })
     }
     else this.toastr.error('Action refusée')
   }

@@ -12,13 +12,13 @@ export class Post{
     resume: string;
     listComment: Commentaire[];
     nbLike: number;
-    categorie: Rubric;
+    categorie: string;
 
     constructor(titre: string,
                 auteur: User,
                 description: string,
                 resume: string,
-                categorie: Rubric)
+                categorie: string)
     {
         this.id = Math.random().toString(36).substr(2, 9);
         this.titre = titre

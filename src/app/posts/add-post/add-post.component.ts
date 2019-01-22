@@ -55,7 +55,7 @@ export class AddPostComponent implements OnInit {
     this.auth.user.map(user => {
       auteur = user
     }).subscribe( () => {
-      this.post = new Post(this.postForm.value.titre, auteur,this.postForm.value.resume, this.postForm.value.description, categorie)
+      this.post = new Post(this.postForm.value.titre, auteur,this.postForm.value.resume, this.postForm.value.description, "Finance")
       this.postService.editPost(this.post).then( () => this.dialogRef.close(true))
     })
   }

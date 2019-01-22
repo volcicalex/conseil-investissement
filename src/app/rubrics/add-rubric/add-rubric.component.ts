@@ -28,7 +28,7 @@ export class AddRubricComponent implements OnInit {
 
   addNode(): void{
     this.rubric = new Rubric(this.postForm.value.nom)
-    this.categorieService.addCategory(this.rubric).then(() => {this.toastr.success("Rubrique ajoutée"); this.dialogRef.close()})
+    //this.categorieService.addCategory(this.rubric).then(() => {this.toastr.success("Rubrique ajoutée"); this.dialogRef.close()})
   }
 
 }
