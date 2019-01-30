@@ -4,7 +4,8 @@ import { PostService } from './post.service';
 import { InjectionToken } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { AuthService } from './auth.service';
 
 describe('PostService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -18,8 +19,14 @@ describe('PostService', () => {
       useValue: {}}]
   }));
 
-  it('should be created', () => {
-    const service: PostService = TestBed.get(PostService);
-    expect(service).toBeTruthy();
+  it('should access to posts', () => {
+    let angularFireAuth = AngularFireAuth.prototype
+    let angularFireDb = AngularFireDatabase.prototype
+    let toastrService = ToastrService.prototype
+
+    let authService = new AuthService(angularFireAuth, angularFireDb, toastrService)
+    let postService = new PostService(authService, angularFireDb, toastrService)
+    var promise = postService.getPosts()
+    expect(promise).toBeDefined()
   });
 });

@@ -38,6 +38,7 @@ import { AddPostComponent } from './posts/add-post/add-post.component';
 import { AddRubricComponent } from './rubrics/add-rubric/add-rubric.component';
 import { ManageUserComponent } from './admin/manage-user/manage-user.component';
 import { TreeComponent } from './tests/tree/tree.component';
+import { UnitTestingComponent } from './tests/unit-testing/unit-testing.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { TreeComponent } from './tests/tree/tree.component';
     AddRubricComponent,
     ManageUserComponent,
     TreeComponent,
+    UnitTestingComponent,
   ],
   imports: [
     BrowserModule,
