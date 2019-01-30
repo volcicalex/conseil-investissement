@@ -25,7 +25,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MatDialogModule, MatDialogRef, MatDialog} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
@@ -90,6 +90,6 @@ import { TreeComponent } from './tests/tree/tree.component';
   bootstrap: [AppComponent],
   entryComponents: [EditPostComponent,
                     AddPostComponent,
-                    AddRubricComponent]
+                    AddRubricComponent,]
 })
 export class AppModule { }
