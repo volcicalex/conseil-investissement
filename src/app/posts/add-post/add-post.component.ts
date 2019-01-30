@@ -7,18 +7,25 @@ import { AuthService } from 'src/app/services/auth.service';
 import { auth } from 'firebase';
 import { CategorieService } from 'src/app/services/categorie.service';
 import { Rubric } from 'src/app/models/rubric';
+import { FileDatabase } from 'src/app/accueil/FileDatabase';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { FileNode } from 'src/app/models/node';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 
 @Component({
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
-  styleUrls: ['./add-post.component.css']
+  styleUrls: ['./add-post.component.css'],
+  providers: [FileDatabase]
 })
-export class AddPostComponent implements OnInit {
-
-  rubrics: Rubric[]
+export class AddPostComponent {
 
   post: Post
-  indexCategorie: string
+
+  nestedTreeControl: NestedTreeControl<FileNode>
+  nestedDataSource: MatTreeNestedDataSource<FileNode>
+
+  nodeSelected: FileNode = new FileNode("", "")
 
   postForm = new FormGroup({
     titre: new FormControl(''),
@@ -26,36 +33,45 @@ export class AddPostComponent implements OnInit {
     description: new FormControl('')
   });
 
-  constructor(public dialogRef: MatDialogRef<AddPostComponent>,
+  constructor(database: FileDatabase,
+              public dialogRef: MatDialogRef<AddPostComponent>,
               private postService: PostService,
               private categorieService: CategorieService,
-              private auth: AuthService) { }
+              private auth: AuthService) { 
+    this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
+    this.nestedDataSource = new MatTreeNestedDataSource();
 
-  ngOnInit() {
-    this.categorieService.getCategories().valueChanges()
-      .subscribe((rubrics: Rubric[]) => {this.rubrics = rubrics; this.sortedRubrics(); this.indexCategorie = (rubrics.length-1).toString()})
+    database.dataChange.subscribe(data => this.nestedDataSource.data = data);
   }
 
-  sortedRubrics(): void{
-    let f = function compare(a: Rubric, b: Rubric) {
-      if (a.nom == "Tous") return 1
-      else if (b.nom == "Tous") return -1  
-      else if (a.nom < b.nom)
-         return -1;
-      else if (a.nom > b.nom)
-         return 1;
-      return 0;
-    };
-    this.rubrics.sort(f);
+  indent(node: FileNode){
+    let indent = ""
+    let split = node.idsFather.split("/")
+    for (let id of split) if(id != "") indent += "--------"
+    return indent
   }
+
+  allLink(node: FileNode): string{
+    let link = ""
+    if (node.idsFather.length > 0) link += node.idsFather + "/"
+    link += node.filename
+    return link 
+  }
+
+  onSelectNode(node: FileNode): void{
+    this.nodeSelected = node
+  }
+
+  hasNestedChild = (_: number, nodeData: FileNode) => {return nodeData.children && nodeData.children.length > 0;}
+
+  private _getChildren = (node: FileNode) => node.children;
 
   addPost(): void{
-    let categorie = this.rubrics[parseInt(this.indexCategorie)]
     let auteur
     this.auth.user.map(user => {
       auteur = user
     }).subscribe( () => {
-      this.post = new Post(this.postForm.value.titre, auteur,this.postForm.value.resume, this.postForm.value.description, "Finance")
+      this.post = new Post(this.postForm.value.titre, auteur,this.postForm.value.resume, this.postForm.value.description, this.allLink(this.nodeSelected))
       this.postService.editPost(this.post).then( () => this.dialogRef.close(true))
     })
   }

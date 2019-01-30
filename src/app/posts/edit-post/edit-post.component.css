@@ -56,3 +56,33 @@ h2{
 .texteCommentaire{
     font-style: oblique;
 }
+
+.example-tree-invisible {
+    display: none;
+  }
+  
+.example-tree ul,
+.example-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+    position: relative;
+}
+
+.input_comment{
+    display: none;
+}
+
+.input_comment_display{
+    width: 200px;
+    display: flex
+}
+
+.button_comment{
+    position: absolute;
+    right: 0;
+}
+
+.hidden_button_comment{
+    display: none;
+}

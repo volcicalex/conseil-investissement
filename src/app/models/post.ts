@@ -22,11 +22,11 @@ export class Post{
     {
         this.id = Math.random().toString(36).substr(2, 9);
         this.titre = titre
-        this.auteur = auteur;
+        this.auteur = auteur
         this.date = new Date()
         this.description = description
         this.resume = resume
-        this.nbLike = 0;
-        this.categorie = categorie;
+        this.nbLike = 0
+        this.categorie = categorie
     }
 }

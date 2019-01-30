@@ -43,7 +43,7 @@ export class AccueilComponent implements OnInit{
     this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
 
-    database.dataChange.subscribe(data => {this.nestedDataSource.data = data; console.log(data)});
+    database.dataChange.subscribe(data => this.nestedDataSource.data = data);
   }
 
   ngOnInit(){
@@ -51,7 +51,7 @@ export class AccueilComponent implements OnInit{
       .subscribe((posts:Post[]) => {this.posts = posts; this.filteredPosts = this.posts; this.sortedPost()})
   }
 
-  hasNestedChild = (_: number, nodeData: FileNode) => !nodeData.type;
+  hasNestedChild = (_: number, nodeData: FileNode) => {return nodeData.children && nodeData.children.length > 0;}
 
   private _getChildren = (node: FileNode) => node.children;
 
@@ -115,6 +115,7 @@ export class AccueilComponent implements OnInit{
           /* On vide les input */
           this.nomRubrique = ""
           this.hideInput()
+          this.toastr.success("Categorie ajouté")
         }
       )
     } else {

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
@@ -28,6 +28,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatMenuModule} from '@angular/material/menu';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -75,6 +76,7 @@ import { TreeComponent } from './tests/tree/tree.component';
     MatDialogModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatMenuModule,
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyBqBUOOdrWhuktsaHPu86ly__GrMhN39H8",
       authDomain: "conseil-investissement.firebaseapp.com",
@@ -84,7 +86,7 @@ import { TreeComponent } from './tests/tree/tree.component';
       messagingSenderId: "473414439421"
     }),
     AngularFireDatabaseModule,
-    AngularFireAuthModule,
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent],
