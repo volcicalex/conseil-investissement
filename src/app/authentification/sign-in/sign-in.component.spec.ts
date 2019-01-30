@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { SignInComponent } from './sign-in.component';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +10,8 @@ import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { AngularFireModule } from '@angular/fire';
 
 describe('SignInComponent', () => {
   let component: SignInComponent;
@@ -24,6 +26,7 @@ describe('SignInComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SignInComponent, HeaderComponent ],
       imports: [MatCardModule, ReactiveFormsModule,
+        AngularFireModule.initializeApp(environment.firebaseAppConfig),
         ToastrModule.forRoot()],
       providers: [{
         provide: AngularFireAuth,
@@ -42,6 +45,10 @@ describe('SignInComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+
+  it('should be defined', inject([ AuthService ], (service: AuthService) => {
+    expect(service).toBeDefined();
+  }));
 
   it('should create', () => {
     expect(component).toBeDefined();
