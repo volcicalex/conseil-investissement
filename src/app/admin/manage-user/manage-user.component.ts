@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ManageUserComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'prenom', 'pseudo', 'email', 'roles', 'profil', 'supprimer'];
+  displayedColumns: string[] = ['nom', 'prenom', 'pseudo', 'email', 'roles', 'supprimer'];
   dataSource: MatTableDataSource<User>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -44,10 +44,6 @@ export class ManageUserComponent implements OnInit {
     if (user.roles.author) display += ", auteur"
     if (user.roles.admin) display += ", admin"
     return display
-  }
-
-  viewUser(user: User) {
-
   }
 
   deleteUser(user: User) {

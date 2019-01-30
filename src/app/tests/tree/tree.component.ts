@@ -47,7 +47,7 @@ export class TreeComponent {
     return link 
   }
 
-  hasNestedChild = (_: number, nodeData: FileNode) => !nodeData.type;
+  hasNestedChild = (_: number, nodeData: FileNode) => {return nodeData.children && nodeData.children.length > 0;}
 
   private _getChildren = (node: FileNode) => node.children;
 

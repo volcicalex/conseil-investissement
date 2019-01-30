@@ -58,13 +58,11 @@ export class FileDatabase {
   buildFileTree(obj: {[key: string]: any}, level: number, father: FileNode): FileNode[] {
     return Object.keys(obj).reduce<FileNode[]>((accumulator, key) => {
       const value = obj[key];
-      const node = new FileNode(((father.idsFather != "") ? father.idsFather + "/" : "") + father.filename, key);
+      let node = new FileNode(((father.idsFather != "") ? father.idsFather + "/" : "") + father.filename, key);
 
       if (value != null) {
         if (typeof value === 'object') {
           node.children = this.buildFileTree(value, level + 1, node);
-        } else {
-          node.type = value;
         }
       }     
       return accumulator.concat(node).sort(this.sortRubric);
