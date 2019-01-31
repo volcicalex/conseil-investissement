@@ -104,9 +104,12 @@ export class AuthService {
   }
 
   deleteUser(user: User){
-    const ref = this.db.object('users/' + user.id)
-    if (this.canManage) return ref.remove()
+    if (this.canManage){
+      const ref = this.db.object('users/' + user.id)
+
+      if (this.canManage) return ref.remove()
+      else this.toastr.error("Erreur de suppression")
+    }
     else this.toastr.error("Action refusée")
   }
-
 }
