@@ -71,7 +71,7 @@ export class AddPostComponent {
     this.auth.user.map(user => {
       auteur = user
     }).subscribe( () => {
-      this.post = new Post(this.postForm.value.titre, this.postForm.value.description, auteur,this.postForm.value.resume, this.allLink(this.nodeSelected))
+      this.post = new Post(this.postForm.value.titre, auteur, this.postForm.value.description, this.postForm.value.resume, this.allLink(this.nodeSelected))
       this.postService.editPost(this.post).then( () => this.dialogRef.close(true))
     })
   }

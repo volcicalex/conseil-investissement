@@ -71,7 +71,13 @@ export class AccueilComponent implements OnInit{
 
   onSelectNode(node: FileNode): void{
     this.nodeSelected = node
+    this.initDisplay()
     this.fillByFilter()
+  }
+
+  initDisplay(): void{
+    this.hideInput()
+    this.displayButton()
   }
 
   hideInput(): void{
