@@ -1,7 +1,6 @@
 <app-header></app-header>
-<mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Rechercher">
-  </mat-form-field>
+    
+  <input id="search" (keyup)="applyFilter($event.target.value)" placeholder="Rechercher">
   
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>

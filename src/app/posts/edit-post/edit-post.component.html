@@ -74,5 +74,5 @@
     <textarea type="text" [(ngModel)]="newComment"></textarea>
     <button mat-button *ngIf="commentService.canEdit()" (click)="addComment(undefined)">Ajouter</button>
   </div>
-  <button mat-button *ngIf="commentService.canEdit()" (click)="displayAddComment(undefined)">Ajouter un commentaire</button>
+  <button mat-button class="addComment" *ngIf="commentService.canEdit()" (click)="displayAddComment(undefined)">Ajouter un commentaire</button>
 </div>

@@ -46,7 +46,7 @@ export class EditPostComponent{
   indent(comment: Commentaire){
     let indent = ""
     let split = comment.idsFather.split("/")
-    for (let id of split) if(id != "") indent += "--------"
+    for (let id of split) if(id != "" && id !="listComment") indent += "--------"
     return indent
   }
 
@@ -103,6 +103,7 @@ export class EditPostComponent{
             /* On vide les input */
             this.newComment = ""
             this.hideInput()
+            this.displayButton()
             this.toastr.success("Commentaire ajouté")
           })
       })

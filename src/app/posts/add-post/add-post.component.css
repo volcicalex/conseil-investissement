@@ -1,3 +1,9 @@
+h1{
+    background-color: #fefcf8;
+    color: lightseagreen;
+    width: 100%;
+}
+
 form{
     display: flex;
     flex-direction: column;
@@ -12,4 +18,13 @@ form{
     margin-top: 0;
     margin-bottom: 0;
     list-style-type: none;
+}
+
+#subForm{
+    display: flex;
+    justify-content: space-between;
+}
+
+#folder, .addPost{
+    width: 200px;
 }

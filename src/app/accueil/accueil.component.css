@@ -1,6 +1,7 @@
-#search{
-    float: right;
-    width: 25%;
+mat-sidenav-container{
+    position: fixed;
+    height: 100%;
+    width: 100%;
 }
 
 mat-sidenav{
@@ -44,8 +45,7 @@ mat-tree{
 }
 
 .button_rubric{
-    position: absolute;
-    right: 0;
+    margin: auto 0 auto auto;
 }
 
 .hidden_button_rubric{
@@ -59,8 +59,18 @@ mat-tree{
     flex-wrap: wrap
 }
 
+.filter{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#search{
+    width: 25%;
+}
+
 .post{
     width: 400px;
+    height: 300px;
     margin-right: 20px;
     margin-bottom: 20px;
 
