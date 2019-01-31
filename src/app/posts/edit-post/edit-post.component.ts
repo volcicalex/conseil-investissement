@@ -7,6 +7,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { CommentDatabase } from './CommentDatabse';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-edit-post',
@@ -27,8 +28,8 @@ export class EditPostComponent{
               public dialogRef: MatDialogRef<EditPostComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public dialog: MatDialog,
-              private auth: AuthService,
-              private commentService: CommentaireService) {
+              public auth: AuthService,
+              public commentService: CommentaireService) {
 
     this.nestedTreeControl = new NestedTreeControl<Commentaire>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
@@ -76,6 +77,11 @@ export class EditPostComponent{
     }
   }
 
+  initDisplay(): void{
+    this.hideInput()
+    this.displayButton()
+  }
+
   displayAddComment(comment: Commentaire): void{
     this.hideInput()
     this.hideButton()
@@ -89,27 +95,22 @@ export class EditPostComponent{
   }
 
   addComment(comment: Commentaire): void{
-    let auteur
     if (this.newComment != undefined && this.newComment.length > 0){
-      this.auth.user.map(user => {
-        auteur = user
-      }).subscribe( () => {
-        let obj = {id : Math.random().toString(36).substr(2, 9), idsFather: "", 
-          auteur: "auteur", date: new Date(), texte: this.newComment, nbLike: 0}
-        let commentaire = (comment == undefined) ? 
-          new Commentaire("listComment", obj) : new Commentaire(this.allLink(comment), obj)  
-        this.commentService.editComment(this.data.post.id, commentaire).then(
-          () => {
-            /* On vide les input */
-            this.newComment = ""
-            this.hideInput()
-            this.displayButton()
-            this.toastr.success("Commentaire ajouté")
+      this.auth.getUser(sessionStorage.getItem("idUser")).valueChanges()
+        .subscribe( (auteur: User) => {
+          let obj = {id : Math.random().toString(36).substr(2, 9), idsFather: "", 
+          auteur: auteur, date: new Date(), texte: this.newComment, nbLike: 0}
+          let commentaire = (comment == undefined) ? 
+            new Commentaire("listComment", obj) : new Commentaire(this.allLink(comment), obj)  
+          this.commentService.editComment(this.data.post.id, commentaire).then(
+            () => {
+              /* On vide les input */
+              this.newComment = ""
+              this.initDisplay()
+              this.toastr.success("Commentaire ajouté")
           })
-      })
-    } else {
-      this.toastr.error("Action impossible")
-    }
+        })
+    } else this.toastr.error("Action refusée")
   }
 
   onDeleteComment(comment: Commentaire): void {

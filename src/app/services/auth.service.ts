@@ -46,6 +46,7 @@ export class AuthService {
         firebase.auth().createUserWithEmailAndPassword(user.email, password).then(
           (credential) => {
             user.id = credential.user.uid
+            sessionStorage.setItem("idUser", credential.user.uid)
             this.createUser(user)
             resolve();
           },
@@ -63,6 +64,7 @@ export class AuthService {
       (resolve, reject) => {
         firebase.auth().signInWithEmailAndPassword(email, password).then(
           (credential) => {
+            sessionStorage.setItem("idUser", credential.user.uid)
             resolve();
           },
           (error) => {
@@ -75,10 +77,12 @@ export class AuthService {
   }
 
   signOutUser() {
+    sessionStorage.clear()
     this.afAuth.auth.signOut()
   }
 
   private createUser(user: User){
+    user.roles = {author: true, reader: true}
     const ref = this.db.object('users/' + user.id)
     ref.set(user)
   }
@@ -95,6 +99,10 @@ export class AuthService {
   getUsers(){
     if (this.canManage) return this.db.list('users') 
     else this.toastr.error("Action refusée")
+  }
+
+  getUser(idUser: string){
+    return this.db.object('users/' + idUser);
   }
 
   updateUser(user: User){

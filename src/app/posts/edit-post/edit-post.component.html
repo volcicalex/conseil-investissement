@@ -30,8 +30,9 @@
           <button mat-icon-button *ngIf="commentService.canDelete()" (click)="onDeleteComment(comment)"><mat-icon>close</mat-icon></button>
         </div>
         <div [id]="allLink(comment)" class="input_comment">
-          <textarea type="text" [(ngModel)]="newComment"></textarea>
-          <button mat-button (click)="addComment(comment)">Ajouter</button>
+          <textarea matInput type="text" [(ngModel)]="newComment" placeholder="Commentaire"></textarea>
+          <button mat-button *ngIf="commentService.canEdit()" (click)="addComment(comment)">Ajouter</button>
+          <button mat-button (click)="initDisplay()">Annuler</button>
         </div>
       </li>
     </mat-tree-node>
@@ -60,8 +61,9 @@
             <button mat-icon-button *ngIf="commentService.canDelete()" (click)="onDeleteComment(comment)"><mat-icon>close</mat-icon></button>
           </div>
           <div [id]="allLink(comment)" class="input_comment">
-            <textarea type="text" [(ngModel)]="newComment"></textarea>
-            <button mat-button (click)="addComment(comment)">Ajouter</button>
+            <textarea matInput type="text" [(ngModel)]="newComment" placeholder="Commentaire"></textarea>
+            <button mat-button *ngIf="commentService.canEdit()" (click)="addComment(comment)">Ajouter</button>
+            <button mat-button (click)="initDisplay()">Annuler</button>
           </div>
         </div>
         <ul [class.example-tree-invisible]="!nestedTreeControl.isExpanded(comment)">
@@ -71,8 +73,9 @@
     </mat-nested-tree-node>
   </mat-tree>
   <div id="input_comment_tous" class="input_comment">
-    <textarea type="text" [(ngModel)]="newComment"></textarea>
+    <textarea matInput type="text" [(ngModel)]="newComment" placeholder="Commentaire"></textarea>
     <button mat-button *ngIf="commentService.canEdit()" (click)="addComment(undefined)">Ajouter</button>
+    <button mat-button (click)="initDisplay()">Annuler</button>
   </div>
   <button mat-button class="addComment" *ngIf="commentService.canEdit()" (click)="displayAddComment(undefined)">Ajouter un commentaire</button>
 </div>

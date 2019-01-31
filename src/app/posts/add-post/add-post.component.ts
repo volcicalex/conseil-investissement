@@ -11,6 +11,8 @@ import { FileDatabase } from 'src/app/accueil/FileDatabase';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { FileNode } from 'src/app/models/node';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { User } from 'src/app/models/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-post',
@@ -37,7 +39,8 @@ export class AddPostComponent {
               public dialogRef: MatDialogRef<AddPostComponent>,
               private postService: PostService,
               private categorieService: CategorieService,
-              private auth: AuthService) { 
+              private auth: AuthService,
+              private toastr: ToastrService) { 
     this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
 
@@ -67,12 +70,10 @@ export class AddPostComponent {
   private _getChildren = (node: FileNode) => node.children;
 
   addPost(): void{
-    let auteur
-    this.auth.user.map(user => {
-      auteur = user
-    }).subscribe( () => {
-      this.post = new Post(this.postForm.value.titre, auteur, this.postForm.value.description, this.postForm.value.resume, this.allLink(this.nodeSelected))
-      this.postService.editPost(this.post).then( () => this.dialogRef.close(true))
-    })
+    this.auth.getUser(sessionStorage.getItem("idUser")).valueChanges()
+      .subscribe( (auteur: User) => {
+        this.post = new Post(this.postForm.value.titre, auteur, this.postForm.value.description, this.postForm.value.resume, this.allLink(this.nodeSelected))
+        this.postService.editPost(this.post).then( () => {this.toastr.success("Post ajouté"); this.dialogRef.close(true)})
+      })
   }
 }

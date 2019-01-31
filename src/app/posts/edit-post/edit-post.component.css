@@ -66,6 +66,10 @@ h2{
     background-color: #fefcf8;
 }
 
+textarea{
+    min-width: 50%;
+}
+
 .input_comment{
     display: none;
 }

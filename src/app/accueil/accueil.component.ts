@@ -38,8 +38,8 @@ export class AccueilComponent implements OnInit{
   constructor(database: FileDatabase,
               public dialog: MatDialog,
               private toastr: ToastrService,
-              private categorieService: CategorieService,
-              private postService: PostService) {
+              public categorieService: CategorieService,
+              public postService: PostService) {
     this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
 

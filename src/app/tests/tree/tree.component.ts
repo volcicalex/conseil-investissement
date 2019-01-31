@@ -25,7 +25,7 @@ export class TreeComponent {
   nomRubrique: string
 
   constructor(database: FileDatabase,
-              private categorieService: CategorieService,
+              public categorieService: CategorieService,
               private toastr: ToastrService) {
     this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();

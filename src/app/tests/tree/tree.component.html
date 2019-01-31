@@ -43,6 +43,6 @@
 </mat-tree>
 <div id="input_tous" class="input">
   <input type="text" [(ngModel)]="nomRubrique">
-  <button mat-button *ngIf="categorieService.canEdit(undefined)" (click)="addNode()">Ajouter</button>
+  <button mat-button *ngIf="categorieService.canEdit()" (click)="addNode()">Ajouter</button>
 </div>
 

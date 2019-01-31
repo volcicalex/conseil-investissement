@@ -6,12 +6,14 @@ import { AuthorGuard } from './guard/author.guard';
 import { ManageUserComponent } from './admin/manage-user/manage-user.component';
 import { TreeComponent } from './tests/tree/tree.component';
 import { UnitTestingComponent } from './tests/unit-testing/unit-testing.component';
+import { AuthGuard } from './guard/auth.guard';
+import { AdminGuard } from './guard/admin.guard';
 
 export const appRoutes: Routes = [
     { path: 'auth/signup', component: SignUpComponent },
     { path: 'auth/signin', component: SignInComponent },
     { path: 'accueil', component: AccueilComponent },
-    { path: 'manageUser', component: ManageUserComponent },
+    { path: 'manageUser', component: ManageUserComponent, canActivate: [AuthGuard, AdminGuard] },
     { path: 'test', component: UnitTestingComponent },
     { path: '', redirectTo: 'accueil', pathMatch: 'full' },
     { path: '**', redirectTo: 'accueil' }
