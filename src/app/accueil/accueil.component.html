@@ -65,7 +65,6 @@
                     <mat-select placeholder="Trier par" [(value)]="sortedValue">
                         <mat-option value="date" (click)="sortedPost()">Date</mat-option>
                         <mat-option value="like" (click)="sortedPost()">Popularité</mat-option>
-                        <mat-option value="commentaire" (click)="sortedPost()">Commentaire</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <input matInput id="search" (keyup)="applyFilter($event.target.value)" placeholder="Rechercher">
@@ -92,7 +91,6 @@
                         </button> 
                         <div class="postFooter">
                             <button mat-icon-button (click)="onLike(post)">{{post.nbLike}}<mat-icon >thumb_up</mat-icon></button>
-                            <button mat-icon-button><mat-icon>comment</mat-icon></button>
                             <button mat-icon-button *ngIf="postService.canDelete()" (click)="onDelete(post)"><mat-icon>close</mat-icon></button>
                         </div>         
                     </div> 

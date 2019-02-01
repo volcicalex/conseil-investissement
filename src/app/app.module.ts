@@ -39,6 +39,7 @@ import { AddRubricComponent } from './rubrics/add-rubric/add-rubric.component';
 import { ManageUserComponent } from './admin/manage-user/manage-user.component';
 import { TreeComponent } from './tests/tree/tree.component';
 import { UnitTestingComponent } from './tests/unit-testing/unit-testing.component';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { UnitTestingComponent } from './tests/unit-testing/unit-testing.componen
     MatTreeModule,
     MatListModule,
     MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatToolbarModule,
     MatExpansionModule,

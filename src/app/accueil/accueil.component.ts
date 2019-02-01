@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Rubric} from '../models/rubric';
 import { Post } from '../models/post';
 import { PostService } from '../services/post.service';
@@ -12,6 +12,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { FileNode } from '../models/node';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { FileDatabase } from './FileDatabase';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-accueil',
@@ -35,20 +36,32 @@ export class AccueilComponent implements OnInit{
   displayPosts: string = "10"
   sortedValue: string = "date"
 
-  constructor(database: FileDatabase,
+  firstLoad: boolean = true
+
+  @ViewChild('sidenav') public sidenav: MatSidenav
+
+  constructor(private database: FileDatabase,
               public dialog: MatDialog,
               private toastr: ToastrService,
               public categorieService: CategorieService,
               public postService: PostService) {
+
     this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
-
-    database.dataChange.subscribe(data => this.nestedDataSource.data = data);
   }
 
   ngOnInit(){
     this.postService.getPosts().valueChanges()
-      .subscribe((posts:Post[]) => {this.posts = posts; this.filteredPosts = this.posts; this.sortedPost()})
+      .subscribe((posts:Post[]) => {
+        this.posts = posts
+        this.filteredPosts = this.posts
+        this.sortedPost()
+        this.database.dataChange
+          .subscribe(data => {
+            this.nestedDataSource.data = data
+            if (this.firstLoad) this.sidenav.open(); this.firstLoad = false
+          });
+      })
   }
 
   hasNestedChild = (_: number, nodeData: FileNode) => {return nodeData.children && nodeData.children.length > 0;}
@@ -171,9 +184,6 @@ export class AccueilComponent implements OnInit{
       case "like":
         this.sortedPostsByLike();
         break;
-      case "comment":
-        this.sortedPostsByComment();
-        break;
     }
   }
 
@@ -194,22 +204,6 @@ export class AccueilComponent implements OnInit{
       if (a.nbLike < b.nbLike)
          return 1;
       else if (a.nbLike > b.nbLike)
-         return -1;
-      return 0;
-    };
-    this.posts.sort(f);
-    this.filteredPosts.sort(f);
-  }
-
-  sortedPostsByComment(): void{
-    let f = function compare(a: Post, b: Post) {
-      if (a.listComment == undefined)
-        return 1
-      else if (b.listComment == undefined)
-        return -1
-      else if (a.listComment.length < b.listComment.length)
-         return 1;
-      else if (a.listComment.length > b.listComment.length)
          return -1;
       return 0;
     };

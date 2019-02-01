@@ -100,7 +100,7 @@ mat-tree{
     width: 350px;
     font-size: 9pt;
     white-space: pre-line;
-    margin-bottom:40px;
+    padding-bottom:40px;
 }
 
 .postFooter{
@@ -112,8 +112,4 @@ mat-tree{
 
 .postFooter button{
     z-index: 1000;
-}
-
-.postFooter button mat-icon{
-    font-size: 2em;
 }
