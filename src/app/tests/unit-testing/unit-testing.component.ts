@@ -80,7 +80,7 @@ export class UnitTestingComponent implements OnInit {
         document.getElementById("connexion").appendChild(html_element)
       },
       (error) => {
-        html_element.innerText = "Test validé : '" + error.message +" '"
+        html_element.innerText = "Test validé : erreur de connexion levée : '" + error.message +" '"
         html_element.style.color = "green"
         document.getElementById("connexion").appendChild(html_element)
       }
@@ -108,7 +108,7 @@ export class UnitTestingComponent implements OnInit {
         document.getElementById("connexion").appendChild(html_element)
       },
       (error) => {
-        html_element.innerText = "Test validé: '" + error.message +" '"
+        html_element.innerText = "Test validé : erreur d'inscription levée : '" + error.message +" '"
         html_element.style.color = "green"
         document.getElementById("connexion").appendChild(html_element)
       }
@@ -213,10 +213,11 @@ export class UnitTestingComponent implements OnInit {
     html_element.id = "addCategory";
 
     this.catService.userRoles =  ['admin']
-    this.catService.addCategory("catTest")
+    this.catService.addCategory("Lectures")
 
     this.catService.getCategories().valueChanges().subscribe(
-      (data:any) => {if(data.catTest != undefined){
+      (data:any) => {
+        if(data.Lectures != undefined){
         html_element.innerText = "Test validé : ajout de catégorie"
         html_element.style.color = "green"
         document.getElementById("categories").appendChild(html_element)
@@ -226,6 +227,7 @@ export class UnitTestingComponent implements OnInit {
       document.getElementById("categories").appendChild(html_element)
     }
   })
+  
   }
 
   deleteCategory(){
@@ -233,27 +235,23 @@ export class UnitTestingComponent implements OnInit {
     let html_element = document.createElement("p");
     html_element.id = "deleteCategory";
 
+    let html_element2 = document.createElement("p");
+    html_element2.id = "deleteCategory";
+
     this.catService.userRoles =  ['admin']
 
     this.catService.addCategory("toDelete")
-    this.catService.getCategories().valueChanges().subscribe(
-      (data:any) => {if(data.toDelete == undefined){
-        html_element.innerText = "Test échoué : categorie non ajoutee"
-        html_element.style.color = "red"
-        document.getElementById("categories").appendChild(html_element)
-      }}
-    )
 
     this.catService.deleteCategory("", "toDelete")
     this.catService.getCategories().valueChanges().subscribe(
       (data:any) => {if(data.toDelete == undefined){
-        html_element.innerText = "Test validé : suppression de catégorie"
-        html_element.style.color = "green"
-        document.getElementById("categories").appendChild(html_element)
+        html_element2.innerText = "Test validé : suppression de catégorie"
+        html_element2.style.color = "green"
+        document.getElementById("categories").appendChild(html_element2)
       } else {
-        html_element.innerText = "Test échoué : categorie non supprimee"
-        html_element.style.color = "red"
-        document.getElementById("categories").appendChild(html_element)
+        html_element2.innerText = "Test échoué : categorie non supprimee"
+        html_element2.style.color = "red"
+        document.getElementById("categories").appendChild(html_element2)
       }
     })
   }
