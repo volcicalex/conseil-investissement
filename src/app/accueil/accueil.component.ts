@@ -152,7 +152,7 @@ export class AccueilComponent implements OnInit{
   }
 
   applyFilter(value: string): void{
-    this.searchValue = value;
+    this.searchValue = value.toLowerCase();
     this.fillByFilter();
   }
 
@@ -160,7 +160,9 @@ export class AccueilComponent implements OnInit{
 
   isInFilter(post: Post, index: number): boolean{
     return this.isInNode(post, this.nodeSelected) 
-      && post.titre.includes(this.searchValue) 
+      && (post.titre.toLowerCase().includes(this.searchValue)
+      || post.auteur.nom.toLowerCase().includes(this.searchValue)
+      || post.auteur.prenom.toLowerCase().includes(this.searchValue))   
       && (index < parseInt(this.displayPosts))
   }
 
