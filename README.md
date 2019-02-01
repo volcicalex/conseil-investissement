@@ -16,4 +16,13 @@ Navigate to `http://localhost:4200/test`. The app will automatically reload if y
 
 ## Running end-to-end tests
 
+Run `ng e2e` (doesn't work for our tests)
+
+## Author test ids 
+	login : testAuteur@mail.fr
+	password : testAuteur
+
+## Admin test ids 
+	login : testAdmin@mail.fr
+	password : testAdmin
 
